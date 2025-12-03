@@ -8,7 +8,7 @@ A simple cricket tool to calculate:
 
 ## Demo
 After enabling GitHub Pages, the tool will be available here:
-https://YOUR-USERNAME.github.io/Score-Average-Calculation-Tool
+https://adtogrow-boop.github.io/Score-Average-Calculation-Tool
 
 ## How to use
 1. Enter **Runs Required**
