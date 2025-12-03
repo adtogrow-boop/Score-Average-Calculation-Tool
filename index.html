@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Required Run Rate Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width:600px; margin:40px auto; padding:0 16px; }
+    input { width:120px; }
+    label { display:inline-block; width:140px; }
+  </style>
+</head>
+<body>
+  <h2>Required Run Rate Calculator</h2>
+
+  <div>
+    <label for="runs">Runs required:</label>
+    <input id="runs" type="number" min="0" value="50">
+  </div>
+  <div style="margin-top:8px;">
+    <label for="overs">Overs remaining (e.g. 4.3):</label>
+    <input id="overs" type="text" value="4.0">
+  </div>
+
+  <div style="margin-top:12px;">
+    <button onclick="calculate()">Calculate</button>
+  </div>
+
+  <p id="rrr" style="font-weight:600;"></p>
+  <p id="balls"></p>
+
+<script>
+function oversToBalls(oversStr) {
+  // Accept formats like "4.3" (4 overs + 3 balls) or "4.0" or "4"
+  if (!oversStr) return NaN;
+  if (oversStr.includes('.')) {
+    const [ov, b] = oversStr.split('.').map(s => Number(s));
+    if (isNaN(ov) || isNaN(b) || b < 0 || b > 5) return NaN;
+    return ov * 6 + b;
+  }
+  const ov = Number(oversStr);
+  if (isNaN(ov)) return NaN;
+  return ov * 6;
+}
+
+function calculate() {
+  const runs = Number(document.getElementById('runs').value);
+  const oversRaw = document.getElementById('overs').value.trim();
+  const balls = oversToBalls(oversRaw);
+
+  if (!Number.isFinite(runs) || isNaN(balls) || balls <= 0) {
+    document.getElementById('rrr').innerText = 'Please enter valid numbers (e.g. overs as 4.3 for 4 overs 3 balls).';
+    document.getElementById('balls').innerText = '';
+    return;
+  }
+
+  const overs = balls / 6;
+  const rrr = runs / overs;
+  document.getElementById('rrr').innerText = `Required Run Rate: ${rrr.toFixed(2)} runs per over`;
+  document.getElementById('balls').innerText = `To win: ${runs} runs required in ${balls} balls`;
+}
+</script>
+</body>
+</html>
